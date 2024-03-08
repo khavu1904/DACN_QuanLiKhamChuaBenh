@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\DACN-Quan-Ly-Kham-Chua-Benh.props" />
+</Project>

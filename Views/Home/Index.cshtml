@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (ViewBag.ThanhCong != null && ViewBag.ThanhCong == 1)
+{
+    <script>
+        alert('Đăng nhập thành công!');
+    </script>
+}
+
+<img src="~/img/img-main.jpg" style="width: 100%" />
+
+@* @Html.ActionLink("a", "Create", "TaiKhoan"); *@
+

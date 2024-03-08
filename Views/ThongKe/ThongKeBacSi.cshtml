@@ -1,0 +1,79 @@
+﻿@model IEnumerable<DACN_Quan_Ly_Kham_Chua_Benh.ViewModel.ThongKeViewModel>
+@{
+    ViewData["Title"] = "ThongKeBacSi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="mx-auto">
+    <form method="get" action="@Url.Action("ThongKeBacSi", "ThongKe")" class="mt-3">
+        <div class="row">
+            <div class="col-md-3">
+                <input type="date" id="ngayBatDau" name="ngayBatDau" class="form-control" required>
+            </div>
+
+            <div class="col-md-3">
+                <input type="date" id="ngayKetThuc" name="ngayKetThuc" class="form-control" required>
+            </div>
+
+            <div class="col-md-3">
+                @if (ViewBag.BacSiList != null)
+                {
+                    @Html.DropDownList("selectedBacSi", ViewBag.BacSiList as SelectList, "Chọn Bác Sĩ", new { @class = "form-select" })
+                }
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+
+    @if (Model != null && Model.Any() && !string.IsNullOrEmpty(ViewBag.ThongKeMessage))
+    {
+        <br />
+        <div class="text-center">
+            @ViewBag.ThongKeMessage
+        </div>
+        <br />
+        <canvas id="barChart" width="150" height="80"></canvas>
+        <script>
+            var barChartData = {
+                labels: ["Hoàn Thành", "Hủy", "Chưa Hoàn Thành"],
+                datasets: [{
+                    backgroundColor: ["rgba(151,249,190,0.5)", "rgba(255,0,0,1)", "rgba(255,192,0,0.5)"],
+                    borderColor: ["rgba(255,255,255,1)", "rgba(255,0,0,1)", "rgba(255,255,255,1)"],
+                    borderWidth: 1,
+                    data: [@ViewBag.Length1, @ViewBag.Length2, @ViewBag.Length3 ]
+                }]
+            };
+
+            var ctx = document.getElementById('barChart').getContext('2d');
+            var myBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: barChartData,
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        },
+                        y: {
+                            beginAtZero: true,
+                            type: 'linear', // Sử dụng trục y kiểu linear
+                            ticks: {
+                                stepSize: 1, // Bước giữa các giá trị trục y
+                                suggestedMin: 0, // Giá trị tối thiểu của trục y
+                                suggestedMax: Math.ceil(Math.max(@ViewBag.Length1, @ViewBag.Length2, @ViewBag.Length3)) // Giá trị tối đa của trục y
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+    }
+    else
+    {
+        <p></p>
+    }
+</div>
+
+

@@ -1,0 +1,171 @@
+﻿@model IEnumerable<DACN_Quan_Ly_Kham_Chua_Benh.ViewModel.LichKhamViewModel>
+@{
+    ViewData["Title"] = "SearchLichBenhNhan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    th, td {
+        border: 1px solid #ccc;
+        padding: 8px;
+    }
+
+    table {
+        width: 100%;
+    }
+</style>
+
+<script>
+    function validateForm() {
+        var phoneNumberInput = document.getElementById("phoneNumber");
+        var phoneNumberValue = phoneNumberInput.value.trim();     
+        
+        if (phoneNumberValue.length !== 10) {
+            alert("Số điện thoại phải nhập đủ 10 số");
+            return false;
+        }
+    }
+</script>
+
+
+<div style="margin: 20px; width: 100%">
+    <div class="form-search" style="margin: 10px">
+        @using (Html.BeginForm("SearchLichBenhNhan", "LichKham", FormMethod.Get, 
+            new { onsubmit = "return validateForm();" ,
+        }))
+        {
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="number" name="Sdt" value="@ViewBag.SelectedBenhNhan" class="form-control"
+                           min="0" placeholder="Enter phone numbers" id = "phoneNumber"/>                 
+                </div>
+                <div class="col-md-3">
+                    <input type="date" id="ngayTimKiem" name="ngayTimKiem" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+
+                </div>
+                <div class="col-md-4">
+                    <button type="button" onclick="window.location.href='@Url.Action("SearchLichBenhNhan", "LichKham")'" class="btn btn-primary">Làm mới</button>
+                </div>
+
+            </div>
+        }
+    </div>
+    @if (ViewBag.Length != 0)
+    {
+        <table style="border-collapse: collapse; border: 1px solid #ccc;">
+            <thead>
+                <tr>
+                    <th>Mã</th>
+                    <th>Tên bệnh nhân</th>
+                    <th>Trạng thái</th>
+                    <th>Kết quả</th>
+                    <th>TG bắt đầu</th>
+                    <th>TG kết thúc</th>
+                    <th>Tên bác sĩ</th>
+                    <th>Mã Phòng</th>
+                    <th>Ghi chú</th>
+                    <th>Thành Tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var lichKham in Model)
+                {
+                    <tr>
+                        <td>@lichKham.MaLK</td>
+                        @if (lichKham.MaBN != "")
+                        {
+                            <td>
+                                [@lichKham.MaBN]<br />
+                                @lichKham.TenBN <br />
+                                SDT: @lichKham.SDT
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        @if (lichKham.TrangThai == 1)
+                        {
+                            <td>Hoàn thành</td>
+                        }
+                        else if (lichKham.TrangThai == 2)
+                        {
+                            <td>Lịch mới</td>
+                        }
+                        else
+                        {
+                            <td style="color: red">Đã hủy</td>
+                        }
+                        <td>@lichKham.KetQua</td>
+                        <td>@lichKham.ThoiGianBatDau.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>@lichKham.ThoiGianKetThuc.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>[@lichKham.MaBS] @lichKham.TenBS</td>
+
+                        <td>@lichKham.MaPhongKham</td>
+                        <td>@lichKham.GhiChu</td>
+                        <td>@lichKham.ThanhTien</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h4 style="text-align:center; margin-top: 30px">Không có lịch khám</h4>
+    }
+    @if (ViewBag.Length != 0)
+    {
+        <div style="padding-top:10px">
+            <tr>
+                <td>
+                    @{
+                        int leftPage = ViewBag.Page - 1;
+                        if (leftPage <= 0)
+                        {
+                            leftPage = 1;
+                        }
+                        int rightPage = ViewBag.Page + 1;
+                        if (rightPage > ViewBag.PageNumber)
+                        {
+                            rightPage = ViewBag.PageNumber;
+                        }
+                    }
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <a class="page-link" href="/LichKham/SearchLichBenhNhan?page=@leftPage">
+                                &lt&lt
+                            </a>
+                        </li>
+                        @for (int i = 0; i < ViewBag.PageNumber; i++)
+                        {
+                            if (i + 1 == ViewBag.Page)
+                            {
+                                <li class="page-item active">
+                                    <a class="page-link" href="/LichKham/SearchLichBenhNhan?page=@(i+1)">
+                                        @(i + 1)
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="/LichKham/SearchLichBenhNhan?page=@(i+1)">
+                                        @(i + 1)
+                                    </a>
+                                </li>
+                            }
+                        }
+                        <li class="page-item active">
+                            <a class="page-link" href="/LichKham/SearchLichBenhNhan?page=@rightPage">
+                                >>
+                            </a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </div>
+    }
+</div>

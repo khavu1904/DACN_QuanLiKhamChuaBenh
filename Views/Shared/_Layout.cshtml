@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - DACN_Quan_Ly_Kham_Chua_Benh</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/DACN_Quan_Ly_Kham_Chua_Benh.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/fontawesome-free-6.4.2-web/css/fontawesome.css">
+    <link rel="stylesheet" href="~/fontawesome-free-6.4.2-web/css/fontawesome.min.css">
+    <link rel="stylesheet" href="~/fontawesome-free-6.4.2-web//css/solid.css">
+    <link rel="stylesheet" href="~/fontawesome-free-6.4.2-web/css/solid.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #DDE6ED;
+        }
+
+        a span {
+            color: white;
+        }
+
+        .sidebar {
+            display: flex;
+        }
+
+        #menu {
+            margin-top: 6px;
+            margin-right: 5px;
+        }
+
+        .content {
+            display: flex;
+            margin-top: 6px;
+            width: 100%;
+            height: auto;
+            background-color: white;
+            border-radius: 5px;
+        }
+
+        .footer {
+            width: 100%;
+            height: 60px;
+            background-color: #DDE6ED;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #trangchu {
+            font-weight: bold;
+        }
+
+        a:hover span {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #a0e9ff; border-radius: 5px;">
+                <div class="container-fluid">
+                <a href="/Home/Index">
+                    <img src="~/img/logo.png" alt="" style="width: 80px; height: 80px; margin-left: 55px;" />
+                </a>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-left: 200px;">
+                        <a class="navbar-brand" href="/Home/Index" id="trangchu">TRANG CHỦ</a>
+                    </div>
+                    <div class="dropdown" style="margin-right: 100px;">
+                        <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #a0e9ff;">
+                            <i class="fa-solid fa-user"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                          <li><a class="dropdown-item" href="/TaiKhoan/Logout">Đăng xuất</a></li>
+                        </ul>
+                      </div>
+                </div>
+            </nav>
+            <div class="sidebar">
+                <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0" id = "menu" style="background-color: #435585; border-radius: 5px;">
+                    <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                            <li class="nav-item">
+                            <a href="@Url.Action("Index", "TaiKhoan")" class="nav-link align-middle px-0"> <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Tài khoản</span> </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/BacSi/Index" class="nav-link align-middle px-0"> <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Profile</span> </a>
+                            </li>
+                            <li>
+                                <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle"> <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Tìm kiếm</span></a>
+                                <ul class="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
+                                    <li class="w-100">
+                                        <a href="/LichKham/SearchLichBacSi" class="nav-link px-0" style="margin-left: 10px;"> <span class="d-none d-sm-inline">Lịch bác sĩ</span></a>
+                                    </li>
+                                    <li>
+                                    <a href="/LichKham/SearchLichBenhNhan" class="nav-link px-0" style="margin-left: 10px;"> <span class="d-none d-sm-inline">Lịch bệnh nhân</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                        <li>
+                            <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle"> <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Thống Kê</span></a>
+                            <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
+                                <li class="w-100">
+                                    <a href="@Url.Action("Index", "ThongKe")" class="nav-link px-0" style="margin-left: 10px;"> <span class="d-none d-sm-inline">Tất cả lịch khám</span></a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("ThongKeBacSi", "ThongKe")" class="nav-link px-0" style="margin-left: 10px;"> <span class="d-none d-sm-inline">Lịch khám theo bác sĩ</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        </ul>
+                        <hr />
+                    </div>
+                </div>
+                <div class="content">
+                    @RenderBody()
+                </div>
+            </div>
+            <div class="footer">
+              <p>Bản quyền 2023 - Healthy Good</p>
+            </div>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+        </div>
+    </body>
+</html>

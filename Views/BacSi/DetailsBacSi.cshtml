@@ -1,0 +1,462 @@
+﻿@using Newtonsoft.Json.Linq
+@model DACN_Quan_Ly_Kham_Chua_Benh.Models.BacSiViewModel
+@{
+    ViewData["Title"] = "DetailsBacSi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container lh-base">
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group row mt-3 mb-2">
+                    <label class="col-sm-3 col-form-label">Mã Bác sĩ:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" value="@Model.MaBS" readonly />
+                    </div>
+                </div>
+                <div class="form-group row mt-3 mb-2">
+                    <label class="col-sm-3 col-form-label">Tên Bác sĩ:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" value="@Model.TenBS" readonly />
+                    </div>
+                </div>
+                <div class="form-group row mt-3 mb-2">
+                    <label class="col-sm-3 col-form-label">Giới thiệu:</label>
+                    <div class="col-sm-7">
+                        <textarea class="form-control" readonly>@Model.GioiThieu</textarea>
+                    </div>
+                </div>
+                <div class="form-group row mt-3 mb-2">
+                    <label class="col-sm-3 col-form-label">Ngày sinh:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" value="@Model.NgaySinh.ToString("dd/MM/yyyy")" readonly />
+                    </div>
+                </div>
+                <div class="form-group row mt-3 mb-2">
+                    <label class="col-sm-3 col-form-label">Giới tính:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" value="@Model.GioiTinh" readonly />
+                    </div>
+                </div>
+                <div class="form-group row mt-3 mb-2">
+                    <label class="col-sm-3 col-form-label">Địa chỉ:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" value="@Model.DiaChi" readonly />
+                    </div>
+                </div>
+                <div class="form-group row mt-3 mb-2">
+                    <label class="col-sm-3 col-form-label">Email:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" value="@Model.Email" readonly />
+                    </div>
+                </div>
+                <div class="form-group row mt-3 mb-2">
+                    <label class="col-sm-3 col-form-label">Số điện thoại:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" value="@Model.SDT" readonly />
+                    </div>
+                </div>
+                <div class="form-group row mt-3 mb-2">
+                    <label class="col-sm-3 col-form-label">Quốc tịch:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" value="@Model.QuocTich" readonly />
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group col-md-12 mt-3 mb-2">
+                    <label class="col-sm-6 col-form-label fw-bolder">Kinh nghiệm làm việc:</label>
+                    <div class="col-12 bg-light">
+                        @{
+                            var kinhNghiemJson = ViewBag.KinhNghiemJson as string;
+                            var kinhNghiemArray = JArray.Parse(kinhNghiemJson);
+                        }
+                        <ul>
+                            @foreach (var item in kinhNghiemArray)
+                            {
+                                <li>@item</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group col-md-12 mt-3 mb-2">
+                    <label class="col-sm-12 col-form-label fw-bolder">Kỹ năng chuyên môn:</label>
+                    <div class="col-12 bg-light">
+                        @{
+                            var kyNangJson = ViewBag.KyNangJson as string;
+                            var kyNangArray = JArray.Parse(kyNangJson);
+                        }
+                        <ul>
+                            @foreach (var item in kyNangArray)
+                            {
+                                <li>@item</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group row mt-3 mb-2">
+                    <label class="control-label">Bằng cấp:</label>
+                    <div class="controls">
+                        @foreach (var bangCap in ViewBag.dsBangCap)
+                        {
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalBangCap-@bangCap.idBangCap">@bangCap.TenBangCap</button>
+                                <div class="modal fade" id="exampleModalBangCap-@bangCap.idBangCap" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Hình ảnh bằng cấp @bangCap.TenBangCap</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="mb-9">
+                                                    <img src="~/img/@bangCap.HinhAnh" style="width: 100%; height: auto">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group row mt-3 mb-2">
+                    <label class="control-label">Chứng chỉ:</label>
+                    <div class="controls">
+                        @foreach (var chungChi in ViewBag.dsChungChi)
+                        {
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalChungChi-@chungChi.idChungChi">@chungChi.TenChungChi</button>
+                                <div class="modal fade" id="exampleModalChungChi-@chungChi.idChungChi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Hình ảnh chứng chỉ @chungChi.TenChungChi</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="mb-9">
+                                                    <img src="~/img/@chungChi.HinhAnh" style="width: 100%; height: auto">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (ViewBag.ktaccepts == 1)
+        {
+
+        }
+        else if (ViewBag.ktaccepts == 2)
+        {
+            <div class="row mt-3 mb-2">
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-primary"><a asp-action="Accept" asp-route-id="@Model.idBacsiTemp" class="text-decoration-none text-white">Accept</a></button>
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Accept additions</button>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Thông tin bổ sung</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form method="post" action="/BacSi/AcceptAdditions">
+                                    <div class="modal-body">
+                                        <label class="col-form-label">Chọn các mục cần bổ sung:</label>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="checkbox1" name="selectedItems[]" value="Tên Bác Sĩ">
+                                                        <label class="form-check-label" for="checkbox1">
+                                                            Tên bác sĩ
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="checkbox2" name="selectedItems[]" value="GioiThieu">
+                                                        <label class="form-check-label" for="checkbox2">
+                                                            Giới thiệu
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="checkbox3" name="selectedItems[]" value="NgaySinh">
+                                                        <label class="form-check-label" for="checkbox3">
+                                                            Ngày sinh
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="checkbox4" name="selectedItems[]" value="GioiTinh">
+                                                        <label class="form-check-label" for="checkbox4">
+                                                            Giới tính
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="checkbox5" name="selectedItems[]" value="DiaChi">
+                                                        <label class="form-check-label" for="checkbox5">
+                                                            Địa chỉ
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="checkbox6" name="selectedItems[]" value="Email">
+                                                        <label class="form-check-label" for="checkbox6">
+                                                            Email
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="checkbox7" name="selectedItems[]" value="SDT">
+                                                        <label class="form-check-label" for="checkbox7">
+                                                            SĐT
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="checkbox8" name="selectedItems[]" value="QuocTich">
+                                                        <label class="form-check-label" for="checkbox8">
+                                                            Quốc tịch
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="checkbox9" name="selectedItems[]" value="BangCap">
+                                                        <label class="form-check-label" for="checkbox9">
+                                                            Bằng cấp
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="checkbox10" name="selectedItems[]" value="ChungChi">
+                                                        <label class="form-check-label" for="checkbox10">
+                                                            Chứng chỉ
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="checkbox11" name="selectedItems[]" value="KinhNghiem">
+                                                        <label class="form-check-label" for="checkbox11">
+                                                            Kinh nghiệm
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="checkbox12" name="selectedItems[]" value="KyNangChuyenMon">
+                                                        <label class="form-check-label" for="checkbox12">
+                                                            Kỹ năng chuyên môn
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="message-text" class="col-form-label">Vui lòng nhập yêu cầu bổ sung:</label>
+                                            <textarea class="form-control" id="message-text" name="message"></textarea>
+                                        </div>
+                                        <input type="hidden" name="id" value="@Model.idBacsiTemp" />
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-danger"><a asp-action="Reject" asp-route-id="@Model.idBacsiTemp" class="text-decoration-none text-white">Reject</a></button>
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-danger">Thông tin nội dung bổ sung</button>
+                </div>
+            </div>
+        }
+        else if (ViewBag.ktaccepts == 3)
+        {
+            <div class="row mt-3 mb-2">
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-primary"><a asp-action="Accept" asp-route-id="@Model.idBacsiTemp" class="text-decoration-none text-white">Accept</a></button>
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Accept additions</button>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Thông tin bổ sung</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form method="post" action="/BacSi/AcceptAdditions">
+                                    <div class="modal-body">
+                                        <label class="col-form-label">Chọn các mục cần bổ sung:</label>
+                                        <div class="modal-body">
+                                            <label class="col-form-label">Chọn các mục cần bổ sung:</label>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="checkbox1" name="selectedItems[]" value="Tên Bác Sĩ">
+                                                            <label class="form-check-label" for="checkbox1">
+                                                                Tên bác sĩ
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="checkbox2" name="selectedItems[]" value="GioiThieu">
+                                                            <label class="form-check-label" for="checkbox2">
+                                                                Giới thiệu
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="checkbox3" name="selectedItems[]" value="NgaySinh">
+                                                            <label class="form-check-label" for="checkbox3">
+                                                                Ngày sinh
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="checkbox4" name="selectedItems[]" value="GioiTinh">
+                                                            <label class="form-check-label" for="checkbox4">
+                                                                Giới tính
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="checkbox5" name="selectedItems[]" value="DiaChi">
+                                                            <label class="form-check-label" for="checkbox5">
+                                                                Địa chỉ
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="checkbox6" name="selectedItems[]" value="Email">
+                                                            <label class="form-check-label" for="checkbox6">
+                                                                Email
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="checkbox7" name="selectedItems[]" value="SDT">
+                                                            <label class="form-check-label" for="checkbox7">
+                                                                SĐT
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="checkbox8" name="selectedItems[]" value="QuocTich">
+                                                            <label class="form-check-label" for="checkbox8">
+                                                                Quốc tịch
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="checkbox9" name="selectedItems[]" value="BangCap">
+                                                            <label class="form-check-label" for="checkbox9">
+                                                                Bằng cấp
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="checkbox10" name="selectedItems[]" value="ChungChi">
+                                                            <label class="form-check-label" for="checkbox10">
+                                                                Chứng chỉ
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="checkbox11" name="selectedItems[]" value="KinhNghiem">
+                                                            <label class="form-check-label" for="checkbox11">
+                                                                Kinh nghiệm
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" id="checkbox12" name="selectedItems[]" value="KyNangChuyenMon">
+                                                            <label class="form-check-label" for="checkbox12">
+                                                                Kỹ năng chuyên môn
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="message-text" class="col-form-label">Vui lòng nhập yêu cầu bổ sung:</label>
+                                                <textarea class="form-control" id="message-text" name="message"></textarea>
+                                            </div>
+                                            <input type="hidden" name="id" value="@Model.idBacsiTemp" />
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-danger"><a asp-action="Reject" asp-route-id="@Model.idBacsiTemp" class="text-decoration-none text-white">Reject</a></button>
+                </div>
+            </div>
+        }
+        else
+        {
+
+        }
+    </div>
+</div>
+
+
+

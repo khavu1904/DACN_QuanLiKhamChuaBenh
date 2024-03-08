@@ -1,0 +1,70 @@
+﻿@model IEnumerable<DACN_Quan_Ly_Kham_Chua_Benh.ViewModel.ThongKeViewModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+<div class="mx-auto" style="width: 50%;">
+    <form method="get" action="@Url.Action("Index", "ThongKe")" style="width: 100%; margin: 10px">
+        <div class="row">
+            <div class="col-md-4">
+                <input type="date" id="ngayBatDau" name="ngayBatDau" class="form-control" required>
+            </div>
+
+            <div class="col-md-4">
+                <input type="date" id="ngayKetThuc" name="ngayKetThuc" class="form-control" required>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary" onclick="thongKe()">Thống kê</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="mx-auto" style="width: 50%;">
+    @if (Model != null && Model.Any())
+    {
+        <canvas id="barChart" width="150" height="150"></canvas>
+        <script>
+            var barChartData = {
+                labels: ["Hoàn Thành", "Hủy", "Chưa Hoàn Thành"],
+                datasets: [{
+                    label: 'Số lượng lịch theo',
+                    backgroundColor: ["rgba(151,249,190,0.5)", "rgba(255,0,0,1)", "rgba(255,192,0,0.5)"],
+                    borderColor: ["rgba(255,255,255,1)", "rgba(255,0,0,1)", "rgba(255,255,255,1)"],
+                    borderWidth: 1,
+                    data: [@ViewBag.Length1, @ViewBag.Length2, @ViewBag.Length3 ]
+                }]
+            };
+
+            var ctx = document.getElementById('barChart').getContext('2d');
+            var myBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: barChartData,
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        },
+                        y: {
+                            beginAtZero: true,
+                            type: 'linear', // Sử dụng trục y kiểu linear
+                            ticks: {
+                                stepSize: 1, // Bước giữa các giá trị trục y
+                                suggestedMin: 0, // Giá trị tối thiểu của trục y
+                                suggestedMax: Math.ceil(Math.max(@ViewBag.Length1, @ViewBag.Length2, @ViewBag.Length3)) // Giá trị tối đa của trục y
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+
+    }
+    else
+    {
+        <p></p>
+    }
+</div>
+</div>
+

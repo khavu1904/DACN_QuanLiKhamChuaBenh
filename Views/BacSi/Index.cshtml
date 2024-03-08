@@ -1,0 +1,127 @@
+﻿@model IEnumerable<DACN_Quan_Ly_Kham_Chua_Benh.Models.BacSiTemp>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container" style="width: 100%">
+    <div class="row mx-3 my-3">
+        <div class="col-md-5 d-flex">
+            <form asp-action="Index" method="get">
+                <div class="d-flex">
+                    <select name="tt" class="form-control">
+                        <option value="">--Trạng thái--</option>
+                        @foreach (var tt in ViewBag.dsTT)
+                        {
+                            <option value="@tt.Value">@tt.Text</option>
+                        }
+                    </select>
+                    <button type="submit" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#exampleModala">Lọc</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <table class="table">
+       
+        <tbody style="border-bottom: solid 1px">
+             @if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <tr>
+                    <h2>@ViewBag.Message</h2>
+        </tr>
+        <br />
+        <tr>
+            Vui lòng chọn trạng thái khác!.
+        </tr>
+
+    }else
+    {
+            <thead>
+                <tr>
+                    <th>
+                        Mã Bác Sĩ
+                    </th>
+                    <th>
+                        Họ và Tên
+                    </th>
+                    <th>
+                        Số điện thoại
+                    </th>
+                    <th>
+                        Địa chỉ
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Giới tính
+                    </th>
+                    <th>
+                        Ngày sinh
+                    </th>
+                    <th>
+                        Quốc tịch
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MaBS)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TenBS)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SDT)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DiaChi)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GioiTinh)
+                    </td>
+                    <td>
+
+                        @item.NgaySinh.ToString("dd/MM/yyyy")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.QuocTich)
+                    </td>
+                    <td>
+                        @if(ViewBag.kt == 1)
+                        {
+                            <form asp-action="DetailsBacSi" method="get">
+                            <input type="hidden" name="tt" value="@item.TrangThai" />
+                            <button type="submit" class="btn btn-secondary"><a asp-action="DetailsBacSi" asp-route-id="@item.idBacSiTemp" class="text-decoration-none text-white">Details</a></button>
+                        </form>
+                        }else if(ViewBag.kt == 2)
+                        {
+                             <form asp-action="DetailsBacSiBoSung" method="get">
+                                <input type="hidden" name="tt" value="@item.TrangThai" />
+                               <button type="submit" class="btn btn-success"><a asp-action="DetailsBacSiBoSung" asp-route-id="@item.idBacSiTemp" class="text-decoration-none text-white">Chi tiết bổ sung</a></button>
+                            </form>
+                        }else if(ViewBag.kt == 3)
+                        {
+                             <form asp-action="DetailsBacSi" method="get">
+                            <input type="hidden" name="tt" value="@item.TrangThai" />
+                            <button type="submit" class="btn btn-secondary"><a asp-action="DetailsBacSi" asp-route-id="@item.idBacSiTemp" class="text-decoration-none text-white">Details</a></button>
+                        </form>  
+                        }else{
+                            <button>Từ chối</button>
+                        }
+                    </td>
+                </tr>
+                }
+                }
+        </tbody>
+    </table>   
+</div>
+
+
+

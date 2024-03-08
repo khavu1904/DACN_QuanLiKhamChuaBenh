@@ -1,0 +1,71 @@
+﻿@model IEnumerable<DACN_Quan_Ly_Kham_Chua_Benh.Models.LichKham>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>                           
+                <th>
+                    @Html.DisplayNameFor(model => model.MaLK)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.KetQua)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TrangThai)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.idBacSi)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.idBenhNhan)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.idPhongKham)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ThoiGianBatDau)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ThoiGianKetThuc)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>             
+                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MaLK)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KetQua)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TrangThai)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.idBacSi)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.idBenhNhan)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.idPhongKham)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ThoiGianBatDau)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ThoiGianKetThuc)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

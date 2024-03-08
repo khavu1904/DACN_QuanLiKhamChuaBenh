@@ -1,0 +1,119 @@
+﻿@model IEnumerable<DACN_Quan_Ly_Kham_Chua_Benh.Models.TaiKhoan>
+
+@using System.Security.Cryptography;
+@using System.Text;
+@{
+    ViewData["Title"] = "TrangThai1";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@functions {
+    // Hàm mã hóa mật khẩu sử dụng SHA-256
+    public string EncryptPassword(string MatKhau)
+    {
+        using (var sha256 = SHA256.Create())
+        {
+            byte[] hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(MatKhau));
+
+            // Chuyển đổi mảng byte sang chuỗi hex
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < hashedBytes.Length; i++)
+            {
+                builder.Append(hashedBytes[i].ToString("x2"));
+            }
+
+            return builder.ToString();
+        }
+    }
+}
+
+<div>
+    <table class="table main_table">
+        <thead>
+            <tr>
+                <th class="m-2">
+                    ID Tài Khoản
+                </th>
+                <th class="m-2">
+                    Tên Đăng Nhập
+                </th>
+                <th class="m-2">
+                    Mật Khẩu
+                </th>
+                <th class="m-2">
+                    Quyền
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="m-2">
+                        @Html.DisplayFor(modelItem => item.idTaiKhoan)
+                    </td>
+                    <td class="m-2">
+                        @Html.DisplayFor(modelItem => item.TenDangNhap)
+                    </td>
+                    <td class="m-2">
+                        @Html.Raw(EncryptPassword(item.MatKhau))
+                    </td>
+                    <td class="m-2">
+                        @{
+                            if (item.Quyen == 1)
+                            {
+                                <text>Bác sĩ</text>
+                            }
+                            else if (item.Quyen == 2)
+                            {
+                                <text>Bệnh nhân</text>
+                            }
+                            else
+                            {
+                                <text>Khác</text>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="pagination justify-content-center">
+        <ul class="pagination">
+            @if (ViewBag.TotalPages > 1)
+            {
+                <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = 1, pageSize = ViewBag.PageSize })" aria-label="First">
+                        <span aria-hidden="true">&laquo;&laquo;</span>
+                    </a>
+                </li>
+
+                <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1, pageSize = ViewBag.PageSize })" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize })">@i</a>
+                    </li>
+                }
+
+                <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1, pageSize = ViewBag.PageSize })" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+
+                <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.TotalPages, pageSize = ViewBag.PageSize })" aria-label="Last">
+                        <span aria-hidden="true">&raquo;&raquo;</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
